@@ -34,7 +34,8 @@ module CxLog
 
     def default_options
       {
-        formatter: CxLog::Formatters::Json.new
+        formatter: CxLog::Formatters::Json.new,
+        filter_parameters: %i[passw secret token key _key salt cert]
       }
     end
 
@@ -65,8 +66,23 @@ module CxLog
 
     def flush(logger)
       log_level = @context.key?(:error) ? :error : :info
-      logger.public_send(log_level, @options[:formatter].call(@context))
+      logger.public_send(log_level, @options[:formatter].call(sanitized_context))
       clear
+    end
+
+    def sanitized_context
+      @context.to_a.map do |key, value|
+        if sensitive_key?(key)
+          [key, "[FILTERED]"]
+        else
+          [key, value]
+        end
+      end.to_h
+    end
+
+    def sensitive_key?(key)
+      regex = Regexp.union(@options[:filter_parameters].map(&:to_s))
+      key.to_s.match?(regex)
     end
   end
 end

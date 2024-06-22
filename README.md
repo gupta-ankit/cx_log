@@ -63,6 +63,30 @@ If you are using Rails middleware, you can set the formatter in an initializer:
   config.middleware.use CxLog::Middleware, formatter: CxLog::Formatters::KeyValueFormatter.new
 ```
 
+### Filter Parameters
+CxLog supports filtering parameters by default. But, you can overwrite the list of filter parameters by
+setting the `filter_parameters` option:
+
+```ruby
+  CxLog.options = { 
+    filter_parameters: ['password', 'secret']
+  }
+```
+
+If you are using Rails middleware, you can set the filter parameters in an initializer:
+
+```ruby
+  config.middleware.use CxLog::Middleware, filter_parameters: ['password', 'secret']
+```
+
+The log will replace the value of sensitive parameters with `[FILTERED]`:
+```
+{"message":"","request_id":"b41e3733-3ca6-46e9-a968-73e995443ec2",
+ "controller":"posts","action":"index","method":"GET","post_count":1,
+ "password":"[FILTERED]"}
+```
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
