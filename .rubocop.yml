@@ -1,9 +1,6 @@
 AllCops:
   NewCops: enable
-  SuggestExtensions:
-    rubocop-minitest: true
-    rubocop-rake: true
-    rubocop-rspec: false
+  SuggestExtensions: false
   TargetRubyVersion: 2.6
   # Exclude directories
   Exclude:
