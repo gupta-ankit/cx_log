@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module CxLog
+  # internal class to store the events for a single log entry
   class Log
     include Singleton
 
@@ -16,7 +19,7 @@ module CxLog
 
     def default_options
       {
-        formatter: JsonFormatter.new
+        formatter: CxLog::Formatters::Json.new
       }
     end
 
@@ -31,11 +34,11 @@ module CxLog
 
     def add(**kwargs)
       kwargs.each do |key, value|
-        if @context.key?(key)
-          @context[key] = [@context[key], value].flatten
-        else
-          @context[key] = value
-        end
+        @context[key] = if @context.key?(key)
+                          [@context[key], value].flatten
+                        else
+                          value
+                        end
       end
       # return instance to allow chaining
       self

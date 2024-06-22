@@ -1,25 +1,28 @@
+# frozen_string_literal: true
+
 module CxLog
+  # Rails middleware to emit a contextual log line for each request
   class Middleware
     def initialize(app, **kwargs)
       @app = app
-      ContextLog.instance.options = kwargs
+      CxLog::Log.instance.options = kwargs
     end
 
     def call(env)
-      ContextLog.add(request_id: env["action_dispatch.request_id"])
+      CxLog::Log.add(request_id: env["action_dispatch.request_id"])
       method = env["REQUEST_METHOD"]
       route = Rails.application.routes.recognize_path(env["PATH_INFO"])
-      ContextLog.instance.add(
+      CxLog::Log.instance.add(
         controller: route[:controller],
         action: route[:action],
         method: method
       )
       @app.call(env)
     rescue StandardError => e
-      ContextLog.instance.add(error: e.message)
+      CxLog::Log.instance.add(error: e.message)
       raise e
     ensure
-      ContextLog.instance.flush(Rails.logger)
+      CxLog::Log.instance.flush(Rails.logger)
     end
   end
 end
