@@ -1,4 +1,8 @@
 AllCops:
+  NewCops: enable
+  SuggestExtensions:
+    rubocop-minitest: true
+    rubocop-rake: true
   TargetRubyVersion: 2.6
   # Exclude directories
   Exclude:
@@ -20,3 +24,5 @@ Metrics/MethodLength:
 
 Metrics/AbcSize:
   Enabled: false
+
+

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'singleton'
+require "singleton"
 module CxLog
   # internal class to store the events for a single log entry
   class Log
@@ -49,7 +49,7 @@ module CxLog
 
     def add(**kwargs)
       kwargs.each do |key, value|
-        @context[key] = if @context.key?(key)
+        @context[key] = if @context.key?(key) && key.to_sym != :message
                           [@context[key], value].flatten
                         else
                           value
