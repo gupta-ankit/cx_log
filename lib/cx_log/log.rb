@@ -8,7 +8,21 @@ module CxLog
     attr_reader :context, :options
 
     class << self
-      delegate :add, :clear, :flush, :"options=", to: :instance
+      def add(**kwargs)
+        instance.add(**kwargs)
+      end
+
+      def clear
+        instance.clear
+      end
+
+      def flush
+        instance.flush
+      end
+
+      def options=(**options)
+        instance.options = options
+      end
     end
 
     def default_context
