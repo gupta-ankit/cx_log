@@ -3,7 +3,6 @@
 require "test_helper"
 
 class TestLog < Minitest::Test
-
   def setup
     @log = Class.new(CxLog::Log).instance
   end
@@ -21,7 +20,7 @@ class TestLog < Minitest::Test
   def test_that_it_can_append
     @log.add(foo: "bar")
     @log.add(foo: "baz")
-    assert_equal({ message: "", foo: ["bar", "baz"] }, @log.context)
+    assert_equal({ message: "", foo: %w[bar baz] }, @log.context)
   end
 
   def that_it_can_clear
