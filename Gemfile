@@ -11,4 +11,5 @@ group :development, :test do
   gem "rubocop", "~> 1.21"
   gem "rubocop-minitest"
   gem "rubocop-rake"
+  gem "rubocop-rspec" # TODO: find how to remove this dependency as RSpec is not used
 end
