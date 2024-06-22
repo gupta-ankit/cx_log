@@ -1,24 +1,67 @@
 # CxLog
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/cx_log`. To experiment with that code, run `bin/console` for an interactive prompt.
+Trying to debug an issue by looking at multiple logs is often cumbersome. 
+CxLog allows you to create a single log line for a context (request, background job, etc.) in your application.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+```bash
+    $ bundle add cx_log
+```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+```bash
+    $ gem install cx_log
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Basic Usage
+CxLog generates structured logs. All logs will have a `message` attribute (that can be overwritten) using `CxLog.add`.
+In order to add an attribute the log, use `CxLog.add`:
+
+```ruby
+    CxLog.log(message: 'test', foo: 'bar')
+```
+Flushing the log will generate `{"message":"test","foo":"bar"}`.
+
+CxLog supports multiple values per key:
+
+```ruby
+    CxLog.log(message: 'test', foo: 'bar')
+    # some code
+    CxLog.add(foo: 'baz')
+```
+
+Flushing the log will generate `{"message":"test","foo":["bar","baz"]}`.
+
+### Rails
+If you are using Rails, you can use the CxLog middleware to automatically generate context logs.
+
+Add the following to your `config/application.rb`:
+
+```ruby
+    config.middleware.use CxLog::Middleware
+```
+
+### Log Format
+By default, CxLog generates logs in JSON format.
+You can use your own or choose one that is shipped with the gem
+
+```ruby
+  CxLog.options = { 
+    formatter: CxLog::Formatters::KeyValueFormatter.new 
+  }
+```
+
+If you are using Rails middleware, you can set the formatter in an initializer:
+
+```ruby
+  config.middleware.use CxLog::Middleware, formatter: CxLog::Formatters::KeyValueFormatter.new
+```
 
 ## Development
 
