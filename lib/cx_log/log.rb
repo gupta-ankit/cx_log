@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'singleton'
 module CxLog
   # internal class to store the events for a single log entry
   class Log
