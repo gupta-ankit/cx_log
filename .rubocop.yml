@@ -3,6 +3,7 @@ AllCops:
   SuggestExtensions:
     rubocop-minitest: true
     rubocop-rake: true
+    rubocop-rspec: false
   TargetRubyVersion: 2.6
   # Exclude directories
   Exclude:
