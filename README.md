@@ -104,3 +104,6 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the CxLog project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/gupta-ankit/cx_log/blob/main/CODE_OF_CONDUCT.md).
+
+PS: There is [this nice article](https://stripe.com/blog/canonical-log-lines) that I read a few years ago, that has inspired this gem.
+
